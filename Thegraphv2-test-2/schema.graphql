@@ -1,0 +1,14 @@
+type valFactory @entity {
+  id: ID!
+  count: BigInt!
+  skinAddr: Bytes! # address
+  skinSalt: BigInt! # uint256
+}
+
+type skin @entity {
+  id: ID!
+  name: String!
+  owner: Bytes!
+  price: BigInt!
+  vfx: Boolean!
+}

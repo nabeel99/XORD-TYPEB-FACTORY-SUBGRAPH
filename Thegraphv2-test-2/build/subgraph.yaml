@@ -1,0 +1,45 @@
+specVersion: 0.0.2
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Valorant
+    network: rinkeby
+    source:
+      address: "0xa19B499DA2c41C48e18c901e06A1C0d64E660b63"
+      abi: Valorant
+      startBlock: 9211179
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - valFactory
+      abis:
+        - name: Valorant
+          file: Valorant/abis/Valorant.json
+        - name: skinsabi
+          file: skinsabi.json
+      eventHandlers:
+        - event: SkinCreated(indexed address,indexed uint256)
+          handler: handleSkinCreated
+      file: Valorant/Valorant.wasm
+templates:
+  - kind: ethereum/contract
+    name: Skins
+    network: rinkeby
+    source:
+      abi: skinsabi
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: templates/Skins/Skins.wasm
+      entities:
+        - skin
+      abis:
+        - name: skinsabi
+          file: skinsabi.json
+      eventHandlers:
+        - event: PriceChanged(indexed uint256,indexed uint256)
+          handler: handlePriceChanged
